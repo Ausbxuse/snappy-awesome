@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# This is bound to Shift+PrintScreen by default, requires maim. It lets you
+# choose the kind of screenshot to take, including copying the image or even
+# highlighting an area to copy. scrotcucks on suicidewatch right now.
+
+case "$(printf "   \\n   \\n   \\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | rofi -dmenu -l 6 -theme ~/.config/rofi/themes/sidebar/three-horizontal.rasi)" in
+	"   ") maim -s ~/Pictures/Screenshots/pic-selected-"$(date '+%y%m%d-%H%M-%S').png" ;;
+	"   ") maim -i "$(xdotool getactivewindow)" ~/Pictures/Screenshots/pic-window-"$(date '+%y%m%d-%H%M-%S').png" ;;
+	"   ") sleep 1 && maim ~/Pictures/Screenshots/pic-full-"$(date '+%y%m%d-%H%M-%S').png" && sleep 2 && notify-send "Screenshot!" ;;
+	"a selected area (copy)") maim -s | xclip -selection clipboard -t image/png ;;
+	"current window (copy)") maim -i "$(xdotool getactivewindow)" | xclip -selection clipboard -t image/png ;;
+	"full screen (copy)") maim | xclip -selection clipboard -t image/png ;;
+esac

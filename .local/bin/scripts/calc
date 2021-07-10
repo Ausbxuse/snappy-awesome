@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rofi -modi calc -show calc -config ~/.config/rofi/themes/calculator.rasi -normal-window

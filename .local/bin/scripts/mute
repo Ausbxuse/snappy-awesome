@@ -1,0 +1,4 @@
+#!/bin/sh
+
+
+pactl set-source-mute @DEFAULT_SOURCE@ toggle && [[ "$(pacmd list-sources | grep muted | awk 'NR==2' | awk '{print $2}')" = "yes" ]] && notify-send "mic muted" || notify-send 'mic unmuted'

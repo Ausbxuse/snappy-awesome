@@ -1,0 +1,6 @@
+#!/bin/sh
+
+case $1 in
+    "") xrandr --output "eDP-1" --brightness .7 ;;
+    "-u") xrandr --output "eDP-1" --brightness 1;;
+esac

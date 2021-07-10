@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo syncing starts...
+folders=$(ls ~/.local/src/dotfiles/.config | sed '/nvim/d')
+dothome="/home/peter/.local/src/dotfiles"
+
+# Sync .config
+for folder in $folders
+do
+    rsync -av ~/.local/src/dotfiles/.config/$folder/ ~/.config/$folder
+done
+
+# Sync .local
+rsync -av $dothome/.local/bin/scripts/ ~/.local/bin/scripts
+rsync -av $dothome/.local/bin/statusbar/ ~/.local/bin/statusbar
+#rsync -a --delete ~/.local/share/wallpapers/ $dothome/.local/share/wallpapers
+#rsync -a --delete /usr/share/icons/Papirus-Dark-Custom/ $dothome/.local/share/icons/Papirus-Dark-Custom

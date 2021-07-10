@@ -1,0 +1,21 @@
+#!/bin/sh
+
+echo "enter file extension:"
+read filetype
+
+folders=$(find $PWD -type f | grep $filetype)
+
+echo "enter pattern to be changed"
+read pattern1
+
+echo "enter pattern to change to"
+read pattern2
+
+for folder in $folders
+do
+sed -i.bak "s/$pattern1/$pattern2/g" $folder
+done
+
+echo "substituted $pattern2 for $pattern1"
+
+# TODO: exclude .bak

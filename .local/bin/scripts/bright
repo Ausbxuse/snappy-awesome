@@ -1,0 +1,11 @@
+#!/bin/sh
+
+msgId=307
+
+if [ $1 = "down" ]
+then
+    brightnessctl s 250- radeon_b10 > /dev/null && dunstify -t 2000 -a "changeBrightness" -u normal -i notification-display-brightness-high -r "$msgId" "Brightness: $(brightnessctl | grep Current | awk '{print $4}' | sed 's/[(/)]//g')"
+elif [ $1 = "up" ]
+then
+    brightnessctl s +250 radeon_b10 > /dev/null && dunstify -t 2000 -a "changeBrightness" -u normal -i notification-display-brightness-low -r "$msgId" "Brightness: $(brightnessctl | grep Current | awk '{print $4}' | sed 's/[(/)]//g')"
+fi

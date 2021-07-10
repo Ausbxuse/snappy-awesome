@@ -1,0 +1,9 @@
+#!/bin/sh
+
+msgId=307
+
+case $1 in
+    down) pamixer -d 5; dunstify -t 2000 -a "changeVolume" -u normal -i notification-audio-volume-medium -r "$msgId" "Volume $(pamixer --get-volume-human | tr -d '%')" ;;
+    up) pamixer -i 5; dunstify -t 2000 -a "changeVolume" -u normal -i notification-audio-volume-high -r "$msgId" "Volume $(pamixer --get-volume-human | tr -d '%')" ;;
+    toggle) pamixer -t; dunstify -t 2000 -a "changeVolume" -u normal -i notification-audio-volume-muted -r "$msgId" "$(pamixer --get-volume-human | tr -d '%')" ;;
+esac

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+#[ $(ps aux | grep betterlockscreen | grep -v '\(xidlehook\|grep\)' | wc -l) = 0 ] && betterlockscreen -l > /dev/null || exit 1
+
+dm-tool lock && notify-send "screen locked" || notify-send -u critical "failed to lock screen"
+#notify-send -u critical "oh shit"
+
+#awesome-client 'awesome.emit_signal("module::lock_screen:show")'

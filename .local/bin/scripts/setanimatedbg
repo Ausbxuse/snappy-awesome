@@ -1,0 +1,3 @@
+#!/bin/sh
+
+xwinwrap -g 1920x1080+0+0 -ni -argb -fdt -fs -un -s -st -sp -b -nf -o 1 -ov -d -- mpv -wid WID --really-quiet --loop --framedrop=vo --no-audio --panscan="1.0" ~/Videos/gradient.mkv

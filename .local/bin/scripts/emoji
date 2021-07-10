@@ -1,0 +1,17 @@
+#!/bin/sh
+
+chosen=$(cut -d ';' -f1 ~/.local/share/emoji | fzf --height 20 | sed "s/ .*//")
+
+# Exit if none chosen.
+[ -z "$chosen" ] && exit
+
+# If you run this command with an argument, it will automatically insert the
+# character. Otherwise, show a message that the emoji has been copied.
+if [ -n "$1" ]; then
+	xdotool type "$chosen"
+else
+#	echo "$chosen" | tr -d '\n' | xclip -selection clipboard
+	echo "$chosen" | tr -d '\n' | xsel -i -b
+	notify-send "'$chosen' copied to clipboard." &
+fi
+sleep 0.1

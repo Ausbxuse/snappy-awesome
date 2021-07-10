@@ -1,0 +1,5 @@
+#!/bin/sh
+
+awesome-client "local lock_screen = require(\"widgets.lockscreen\")
+lock_screen.init()
+lock_screen_show()"

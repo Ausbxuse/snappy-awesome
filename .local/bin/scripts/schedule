@@ -1,0 +1,22 @@
+#!/bin/sh
+
+crontab -l > /tmp/mycron
+
+echo "Please enter schedule month:"
+read month
+echo "date:"
+read day
+echo "hour:"
+read hour
+echo "minute:"
+read minute
+
+echo "Please enter message:"
+read message
+
+echo "$minute $hour $day $month * sudo -u peter DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus /usr/bin/notify-send -u critical $message && /usr/bin/aplay /home/peter/.local/share/sounds/bell.wav" >> /tmp/mycron
+
+crontab /tmp/mycron && echo "Notification Scheduled on $(date +%G)/$month/$day at $hour:$minute"
+rm /tmp/mycron
+
+#TODO: remove old jobs/ log schedules in a json file?

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#awesome-client "awesome.emit_signal('module::lock_screen:show')"
+echo "lock at $(date)" >> /home/peter/.local/share/locklog

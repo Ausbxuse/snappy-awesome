@@ -1,0 +1,6 @@
+#!/bin/sh
+
+chosen=$(ls ~/.local/share/wallpapers | rofi -dmenu -p "Please select your preferred wallpaper")
+
+bgloc=$(printf "%s%s\n" "/home/peter/.local/share/wallpapers/" "$chosen") && notify-send -i "$bgloc" "Wallpaper changed."
+xwallpaper --zoom "$bgloc"

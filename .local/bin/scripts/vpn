@@ -1,0 +1,19 @@
+#!/bin/sh
+
+check=$(openvpn3 sessions-list | grep Status | awk '{print $4}')
+
+if [[  $check == connected ]]; then
+  status="on"
+elif [[ $check == reconnect  ]]; then
+  status="reconnect"
+else
+  status="off"
+
+fi
+
+
+case $1 in 
+  '') printf "vpn status: $status\n  -c to connect, -d to disconnect\n";;
+  -c) [[ $status = "off" ]] && openvpn3 session-start --config ~/.config/abyss.ovpn || echo already connected or connection unsuccessful && exit 1;;
+  -d) openvpn3 session-manage --disconnect --config ~/.config/abyss.ovpn;;
+esac

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+id=$(xinput list | grep 'AT Translated Set' | cut -f2 | cut -d'=' -f2)
+
+stat=$(xinput --list-props $id | grep "Device Enabled" | awk '{print $4}')
+
+set_kbd() {
+  xinput set-prop $id "Device Enabled" $1
+}
+
+toggle() {
+  if [ $stat == 1 ]; then
+    set_kbd 0 && echo "keyboard disabled"
+  else
+    set_kbd 1 && echo "keyboard enabled"
+  fi
+}
+
+toggle
