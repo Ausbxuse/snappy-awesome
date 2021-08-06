@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# a notification box that stands alone!(kill all other boxes when spawned)
+
+title=$1
+content=$2
+image=$3
+id=$4
+echo "music_noti:notify('$1', '$2', '$3', '$4')" | awesome-client

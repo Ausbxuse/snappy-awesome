@@ -14,6 +14,25 @@ fi
 
 case $1 in 
   '') printf "vpn status: $status\n  -c to connect, -d to disconnect\n";;
-  -c) [[ $status = "off" ]] && openvpn3 session-start --config ~/.config/abyss.ovpn || echo already connected or connection unsuccessful && exit 1;;
-  -d) openvpn3 session-manage --disconnect --config ~/.config/abyss.ovpn;;
+  -c)  if [[ $status == off ]]; then
+        echo choose your profile:
+        echo "   1) abyss.ovpn"
+        echo "   2) lobster.ovpn"
+
+        until [[ $profile_choice =~ ^[1-3]$ ]]; do
+          read -rp"[1-2]: " -e -i 1 profile_choice
+        done
+
+
+        case $profile_choice in
+          1) profile="abyss.ovpn";;
+          2) profile="lobster.ovpn";;
+        esac
+
+        openvpn3 session-start --config ~/.config/$profile || exit 1
+      else
+        echo already connected or connection unsuccessful && exit 1
+      fi
+    ;;
+  -d) openvpn3 session-manage --disconnect --config $(openvpn3 sessions-list | grep .config | awk '{print $3}');;
 esac

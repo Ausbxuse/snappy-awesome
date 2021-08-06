@@ -16,6 +16,28 @@ Xft.dpi: 142
 /* cyan		6	14 */
 /* white	7	15 */
 
+!! argonaut:
+*.color0: #121212
+*.color1: #ff000f
+*.color2: #aae95b
+*.color3: #ffb900
+*.color4: #61aeee
+*.color5: #bd93f9
+*.color6: #00d7ea
+*.color7: #ffffff
+*.color8: #444444
+*.color9: #ff2740
+*.color10: #abe15b
+*.color11: #ffd242
+*.color12: #61afef
+*.color13: #fc1a70
+*.color14: #67fff0
+*.color15: #ffffff
+*.color256: #282c34
+*.color257: #f9f9f9
+*.background: #282c34
+*.foreground: #f9f9f9
+
 /* !! gruvbox: */
 /* *.color0: #1d2021 */
 /* *.color1: #cc241d */
@@ -161,3 +183,41 @@ Xft.dpi: 142
 /* *foreground: rgb:28/2c/34 */
 Sxiv.foreground: #f9f9f9
 Sxiv.background: #282c34
+
+!! URxvt Appearance
+URxvt.font: xft:JetBrains Mono Nerd Font:style=Regular:size=10.5,xft:Noto Emoji
+!!xft:Feather:pixelsize=18,xft:Material:size=10.5,xft:typicons:size=10.5,xft:remix:size=10.5,xft:icomoon-feather:size=10.5,xft:iconic:size=10.5,xft:M+ 1mn Nerd Font Complete:size=10.5,xft:materialdesignicons-webfont:size=10.5,xft:JoyPixels:pixelsize=18
+URxvt.boldFont: xft:JetBrains Mono:style=Bold:size=10.5
+URxvt.italicFont: xft:JetBrains Mono:style=Italic:size=10.5
+URxvt.boldItalicfont: xft:JetBrains Mono:style=Bold Italic:size=10.5
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 0
+URxvt.cursorBlink: false
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.depth: 24
+URxvt.iso14755: false
+!! Copy Paste & Other Extensions
+!!URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select
+URxvt.perl-ext-common: default
+URxvt.copyCommand: xclip -i -selection clipboard
+URxvt.pasteCommand: xclip -o -selection clipboard
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.urlLauncher: brave
+URxvt.underlineURLs: true
+URxvt.urlButton: 1
+URxvt.alpha: 0.8
+
+URxvt.tintColor:
+URxvt.inheritPixmap:
+

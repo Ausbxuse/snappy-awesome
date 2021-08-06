@@ -1,0 +1,17 @@
+#!/bin/bash
+usage() {
+  echo "Usage: $(basename $0) Firefox [Chrome ...]"
+  exit 1
+}
+
+[ $# -lt 1 ] && usage
+
+for app in "$@"
+do
+  w=$(xdotool getwindowfocus)
+  xdotool search --onlyvisible --class "$app" windowfocus key \
+      --window %@ 'ctrl+r' || {
+    1>&2 echo "unable to signal an application named \"$app\""
+  }
+  xdotool windowfocus $w
+done

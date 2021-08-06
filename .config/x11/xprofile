@@ -7,7 +7,7 @@ export XMODIFIERS="@im=fcitx"
 xrdb -load ~/.config/x11/xresources &
 
 #randombg &
-xwallpaper --zoom "/home/peter/.local/share/wallpapers/wallpaperflare.com_wallpaper.jpg" &			# set the background with the `setbg` script
+#xwallpaper --zoom "/home/peter/.local/share/wallpapers/wallpaperflare.com_wallpaper.jpg" &			# set the background with the `setbg` script
 # This file runs when a DM logs you into a graphical session.
 # If you use startx/xinit like a Chad, this file will also be sourced.
 
@@ -20,7 +20,7 @@ picom &		# xcompmgr for transparency
 xset r rate 200 60 &	# Speed xrate up
 unclutter &		# Remove mouse when idle
 #transmission-daemon &
-fcitx5 &
+fcitx &
 #light-locker --no-idle-hint &
 
 #xautolock -time 1 -locker "slock" -corners +00- &

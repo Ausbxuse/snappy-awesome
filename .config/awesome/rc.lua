@@ -4,31 +4,19 @@
 pcall(require, "luarocks.loader")
 
 local awful = require("awful")
-local gears = require("gears")
 local beautiful = require("beautiful")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
-
 beautiful.init("/home/peter/.config/awesome/themes/default/theme.lua")
 
-local bling = require("bling")
-bling.widget.tag_preview.enable {
-    show_client_content = true,  -- Whether or not to show the client content
-    x = 10,                       -- The x-coord of the popup
-    y = 10+beautiful.bar_height,                       -- The y-coord of the popup
-    scale = 0.3,                 -- The scale of the previews compared to the screen
-    honor_padding = false,        -- Honor padding when creating widget size
-    honor_workarea = false        -- Honor work area when creating widget size
-}
 require("main")
-
 require("themes.default")
--- require("widgets.dock")
-
 require("widgets.brightness-slider")
--- require("widgets.volume-slider")
 require("widgets.cat-volume-slider")
 require("widgets.exit-screen")
+
+-- require("widgets.dock")
+-- require("widgets.volume-slider")
 -- require("widgets.dashboard")
 -- require("evil")
 -- require("widgets.sidebar")
@@ -58,3 +46,13 @@ if tag then awful.tag.viewtoggle(tag) end
 
 require("utils.music-notif")
 -- require("widgets.tasklist")
+--
+local bling = require("bling")
+bling.widget.tag_preview.enable {
+    show_client_content = true,  -- Whether or not to show the client content
+    x = 10,                       -- The x-coord of the popup
+    y = 10+beautiful.bar_height,                       -- The y-coord of the popup
+    scale = 0.3,                 -- The scale of the previews compared to the screen
+    honor_padding = false,        -- Honor padding when creating widget size
+    honor_workarea = false        -- Honor work area when creating widget size
+}

@@ -119,14 +119,16 @@ else
 fi
 
 # Configuration
-num_dirs=2 # Use 0 for full path
+num_dirs=0 # Use 0 for full path
 NEWLINE=$'\n'
-truncated_path="%F{8}%K{8}%F{4} %K{0} %F{white}%$num_dirs~%{%k%}%F{0}%f%F{13}❯%F{5}❯%F{14}❯%{%k%}%F{white}"
+#truncated_path="%F{8}%K{8}%F{4} %K{0} %F{white}%$num_dirs~%{%k%}%F{0}%f%F{13}❯%F{5}❯%F{14}❯%{%k%}%F{white}"
+truncated_path=" %F{14}%$num_dirs~ %{%k%}%f%F{13}❯%{%k%}%F{white}"
 background_jobs="%(1j.%F{0}%K{0}%F{3}%{%k%}%F{0}%f.)"
 non_zero_return_value="%(0?..%F{0}%K{0}%F{1}%{%k%}%F{0}%f)"
 
 # Left part of prompt
 #PROMPT="$truncated_path $user_symbol "
+PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD}\007"'
 PROMPT="$truncated_path "
 # Right part of prompt
 RPROMPT=" $background_jobs $non_zero_return_value"

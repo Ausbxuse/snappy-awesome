@@ -6,6 +6,7 @@ local anim = require("utils.anim")
 local easing = require("utils.anim.easing")
 local bling = require("bling")
 local naughty = require("naughty")
+local dpi = beautiful.xresources.apply_dpi
 -- local bling = require("bling")
 
 super = "Mod4"
@@ -30,7 +31,12 @@ local awmodoro = require("widgets.awmodoro")
 local s = awful.screen.focused()
 
 -- pomodoro wibox
-local pomowibox = awful.wibar({position = "top", screen = 1, height = 4, ontop = true})
+local pomowibox = awful.wibar({
+  position = "top",
+  screen = 1,
+  height = 4,
+  ontop = true
+})
 pomowibox.visible = false
 local pomodoro = awmodoro.new({
   minutes = 65,
@@ -52,7 +58,8 @@ local pomodoro = awmodoro.new({
   end,
 
   finish_callback = function()
-    awful.spawn("aplay --quiet --nonblock /home/peter/.local/share/sounds/bell.wav")
+    awful.spawn(
+      "aplay --quiet --nonblock /home/peter/.local/share/sounds/bell.wav")
     -- s.statusbar.visible = true
     pomowibox.visible = false
   end
@@ -71,21 +78,17 @@ local awestore = require("utils.awestore")
 -- General Awesome keys
 awful.keyboard.append_global_keybindings(
   {
-  awful.key({super}, "Tab",
-                    function() switcher.switch(1, super, "Super_L", shift, "Tab") end),
-      awful.key({super, shift}, "Tab",
-                function() switcher.switch(-1, super, "Super_L", shift, "Tab") end),
-    awful.key({super, shift}, "x",
-              -- function() aluaconsole.toggle_visibility() end),
-              function() naughty.notification{
-                  message = tostring(client.focus)
-            } end),
-    -- awful.key({super}, "Tab",
+    awful.key({super}, "Tab",
+              function() switcher.switch(1, super, "Super_L", shift, "Tab") end),
+    awful.key({super, shift}, "Tab", function()
+      switcher.switch(-1, super, "Super_L", shift, "Tab")
+    end), awful.key({super, shift}, "x",
+    -- function() aluaconsole.toggle_visibility() end),
+                    function()
+      naughty.notification {message = tostring(client.focus)}
+    end), -- awful.key({super}, "Tab",
     --           function() appswitcher:show({ filter = allscr }) end),
-    awful.key({super, shift}, "Escape",
-              function()
-                lock_screen_show()
-              end,
+    awful.key({super, shift}, "Escape", function() lock_screen_show() end,
               {description = "lockscreen", group = "launcher"}),
     awful.key({super}, "F1", function()
       if dashboard_show then dashboard_show() end
@@ -101,23 +104,17 @@ awful.keyboard.append_global_keybindings(
     awful.key({super}, "w", function()
 
       if not client.focus then
-        awful.spawn("firefox")
+        awful.spawn("brave")
       else
-        if not client.focus.fullscreen then
-          awful.spawn("firefox")
-        end
+        if not client.focus.fullscreen then awful.spawn("firefox") end
       end
-    end,
-              {description = "show main menu", group = "awesome"}),
+    end, {description = "show main menu", group = "awesome"}),
     awful.key({super, shift}, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({super, shift}, "q",
               function() awesome.emit_signal("module::exit_screen:show") end,
               {description = "quit awesome", group = "awesome"}),
-    awful.key({super}, "b",
-              function()
-                require("widgets.bar-anim")(s)
-              end,
+    awful.key({super}, "b", function() require("widgets.bar-anim")(s) end,
               {description = "toggle bar", group = "awesome"}), -- awful.key({ super }, "b", function() wibars_toggle() end,
     --           {description = "toggle dock", group = "awesome"}),
     -- awful.key({ super, shift       }, "b", function() s.mybar.visible = not s.mybar.visible end,
@@ -138,67 +135,62 @@ awful.keyboard.append_global_keybindings(
     awful.key({super}, "semicolon",
               function() awful.spawn.with_shell("alacritty -e nvim") end,
               {description = "vim", group = "Application"}),
-    awful.key({super}, "Return", function() 
-        if not client.focus then
-          awful.spawn(terminal)
-        else
-          if not client.focus.fullscreen then
-            awful.spawn(terminal)
-          end
-        end
-      end,
-              {description = "open a terminal", group = "launcher"}),
+    awful.key({super}, "Return", function()
+      if not client.focus then
+        awful.spawn(terminal)
+      else
+        if not client.focus.fullscreen then awful.spawn(terminal) end
+      end
+    end, {description = "open a terminal", group = "launcher"}),
     awful.key({super, ctrl}, "r", function()
       awesome.emit_signal("widget::screen_recorder:toggle")
     end, {description = "record screen with sound", group = "launcher"}),
     awful.key({super}, "r", function() awful.spawn("rofi -show run") end,
-              {description = "run prompt", group = "launcher"}), 
-    awful.key({ super, ctrl }, "p", function() 
+              {description = "run prompt", group = "launcher"}),
+    awful.key({super}, "a", function() awful.spawn("rofi -show calc") end,
+              {description = "run prompt", group = "launcher"}),
+    awful.key({super, ctrl}, "p", function()
 
-        local amp = '&amp'..string.char(0x3B)
-        local quot = '&quot'..string.char(0x3B)
-        local atextbox = wibox.widget.textbox()
-        awful.prompt.run {
-            prompt       = '<b>Echo: </b>',
-            bg_cursor    = '#ff0000',
-            -- To use the default `rc.lua` prompt:
-            --textbox      = mouse.screen.mypromptbox.widget,
-            textbox      = atextbox,
-            highlighter  = function(b, a)
-                -- Add a random marker to delimitate the cursor
-                local cmd = b..'ZZZCURSORZZZ'..a
-                -- Find shell variables
-                local sub = '<span foreground=\'#CFBA5D\'>%1</span>'
-                cmd = cmd:gsub('($[A-Za-z][a-zA-Z0-9]*)', sub)
-                -- Highlight ' && '
-                sub = '<span foreground=\'#159040\'>%1</span>'
-                cmd = cmd:gsub('( '..amp..amp..')', sub)
-                -- Highlight double quotes
-                local quote_pos = cmd:find('[^\\]'..quot)
-                while quote_pos do
-                    local old_pos = quote_pos
-                    quote_pos = cmd:find('[^\\]'..quot, old_pos+2)
-                    if quote_pos then
-                        local content = cmd:sub(old_pos+1, quote_pos+6)
-                        cmd = table.concat({
-                                cmd:sub(1, old_pos),
-                                '<span foreground=\'#2977CF\'>',
-                                content,
-                                '</span>',
-                                cmd:sub(quote_pos+7, #cmd)
-                        }, '')
-                        quote_pos = cmd:find('[^\\]'..quot, old_pos+38)
-                    end
-                end
-                -- Split the string back to the original content
-                -- (ignore the recursive and escaped ones)
-                local pos = cmd:find('ZZZCURSORZZZ')
-                b,a = cmd:sub(1, pos-1), cmd:sub(pos+12, #cmd)
-                return b,a
-            end,
-        }
-    end,
-             {description = "show the menubar", group = "launcher"}),
+      local amp = '&amp' .. string.char(0x3B)
+      local quot = '&quot' .. string.char(0x3B)
+      local atextbox = wibox.widget.textbox()
+      awful.prompt.run {
+        prompt = '<b>Echo: </b>',
+        bg_cursor = '#ff0000',
+        -- To use the default `rc.lua` prompt:
+        -- textbox      = mouse.screen.mypromptbox.widget,
+        textbox = atextbox,
+        highlighter = function(b, a)
+          -- Add a random marker to delimitate the cursor
+          local cmd = b .. 'ZZZCURSORZZZ' .. a
+          -- Find shell variables
+          local sub = '<span foreground=\'#CFBA5D\'>%1</span>'
+          cmd = cmd:gsub('($[A-Za-z][a-zA-Z0-9]*)', sub)
+          -- Highlight ' && '
+          sub = '<span foreground=\'#159040\'>%1</span>'
+          cmd = cmd:gsub('( ' .. amp .. amp .. ')', sub)
+          -- Highlight double quotes
+          local quote_pos = cmd:find('[^\\]' .. quot)
+          while quote_pos do
+            local old_pos = quote_pos
+            quote_pos = cmd:find('[^\\]' .. quot, old_pos + 2)
+            if quote_pos then
+              local content = cmd:sub(old_pos + 1, quote_pos + 6)
+              cmd = table.concat({
+                cmd:sub(1, old_pos), '<span foreground=\'#2977CF\'>', content,
+                '</span>', cmd:sub(quote_pos + 7, #cmd)
+              }, '')
+              quote_pos = cmd:find('[^\\]' .. quot, old_pos + 38)
+            end
+          end
+          -- Split the string back to the original content
+          -- (ignore the recursive and escaped ones)
+          local pos = cmd:find('ZZZCURSORZZZ')
+          b, a = cmd:sub(1, pos - 1), cmd:sub(pos + 12, #cmd)
+          return b, a
+        end
+      }
+    end, {description = "show the menubar", group = "launcher"}),
     -- awful.key({super}, "p", function() awful.spawn.with_shell("maimpick") end,
     --          {description = "screenshots", group = "launcher"}), -- Brightness
     awful.key({super}, "p", function()
@@ -236,9 +228,7 @@ awful.keyboard.append_global_keybindings(
               function() awful.spawn.with_shell("mpc -q seek +10") end,
               {description = "forward song", group = "media"}),
     awful.key({}, "XF86AudioNext",
-              function()
-                awful.spawn.with_shell("mpc -q next")
-              end,
+              function() awful.spawn.with_shell("mpc -q next") end,
               {description = "next song", group = "media"}),
     awful.key({}, "XF86AudioPrev",
               function() awful.spawn.with_shell("mpc -q prev") end,
@@ -255,7 +245,7 @@ awful.keyboard.append_global_keybindings(
               function() bling.module.window_swallowing.toggle() end,
               {description = "swallow", group = "launcher"}),
     awful.key({super, ctrl}, "space",
-              function() awful.spawn("alacritty -e emoji -g 38x15") end,
+              function() awful.spawn("rofi-emoji ") end,
               {description = "emojis", group = "launcher"})
   })
 
@@ -334,11 +324,11 @@ awful.keyboard.append_global_keybindings(
               function() awful.tag.incncol(-1, nil, true) end, {
       description = "decrease the number of columns",
       group = "layout"
-    }), 
-  -- awful.key({super}, "space", function() awful.layout.inc(1) end,
-  --                 {description = "select next", group = "layout"}),
-  --   awful.key({super, shift}, "space", function() awful.layout.inc(-1) end,
-  --             {description = "select previous", group = "layout"})
+    })
+    -- awful.key({super}, "space", function() awful.layout.inc(1) end,
+    --                 {description = "select next", group = "layout"}),
+    --   awful.key({super, shift}, "space", function() awful.layout.inc(-1) end,
+    --             {description = "select previous", group = "layout"})
   })
 
 -- LuaFormatter off
@@ -494,20 +484,32 @@ client.connect_signal("request::default_keybindings", function()
         else
           move_client_dwim(c, "right")
         end
-      end), 
-      awful.key({super, alt}, "j", function(c)
+      end), awful.key({super, alt}, "j", function(c)
         awful.client.cycle(true)
         client.focus:raise()
       end, {description = "focus down", group = "client"}),
       awful.key({super}, "j", function(c)
+
+        local layout_is_max = (awful.layout.get(mouse.screen) ==
+                                awful.layout.suit.max)
         if not c.fullscreen then
-          awful.client.focus.bydirection("down")
+          if layout_is_max then
+            awful.client.focus.byidx(1)
+          else
+            awful.client.focus.bydirection("down")
+          end
           client.focus:raise()
         end
       end, {description = "focus down", group = "client"}),
       awful.key({super}, "k", function(c)
+        local layout_is_max = (awful.layout.get(mouse.screen) ==
+                                awful.layout.suit.max)
         if not c.fullscreen then
-          awful.client.focus.bydirection("up")
+          if layout_is_max then
+            awful.client.focus.byidx(-1)
+          else
+            awful.client.focus.bydirection("up")
+          end
           client.focus:raise()
         end
       end, {description = "focus up", group = "client"}),
@@ -550,8 +552,29 @@ client.connect_signal("request::default_keybindings", function()
       end, {description = "toggle fullscreen", group = "client"}),
       awful.key({super}, "q", function(c) c:kill() end,
                 {description = "close", group = "client"}),
-      awful.key({super, ctrl}, "space", awful.client.floating.toggle,
-                {description = "toggle floating", group = "client"}),
+
+      awful.key({super, ctrl}, "g", function(c)
+        c:struts{
+          left = 100,
+          right = 100,
+          top = 100 + beautiful.bar_height,
+          bottom = 100
+        }
+      end, {description = "gap control", group = "client"}),
+      awful.key({super, shift, ctrl}, "g", function(c)
+        c:struts{left = 0, right = 0, top = beautiful.bar_height, bottom = 0}
+      end, {description = "gap control", group = "client"}),
+
+      awful.key({super}, "g", function(c)
+        if beautiful.useless_gap == dpi(4) then
+          beautiful.useless_gap = dpi(0)
+        else
+          beautiful.useless_gap = dpi(4)
+        end
+      end), awful.key({super, shift}, "g", function(c)
+        beautiful.useless_gap = beautiful.useless_gap + 10
+      end), awful.key({super, ctrl}, "space", awful.client.floating.toggle,
+                      {description = "toggle floating", group = "client"}),
       awful.key({super, ctrl}, "Return",
                 function(c) c:swap(awful.client.getmaster()) end,
                 {description = "move to master", group = "client"}),
@@ -598,7 +621,10 @@ client.connect_signal("request::default_keybindings", function()
       awful.key({super}, "t", function(c)
         -- Don't toggle if titlebars are used as borders
         if not beautiful.titlebars_imitate_borders then
-          awful.titlebar.toggle(c)
+          awful.titlebar.toggle(c, "left")
+          awful.titlebar.toggle(c, "right")
+          awful.titlebar.toggle(c, "top")
+          awful.titlebar.toggle(c, "bottom")
         end
       end, {description = "toggle titlebar", group = "client"}), -- Toggle titlebar (for all visible clients in selected tag)
       awful.key({super, shift}, "t", function(c)
@@ -606,7 +632,10 @@ client.connect_signal("request::default_keybindings", function()
         local clients = awful.screen.focused().clients
         for _, c in pairs(clients) do
           -- Don't toggle if titlebars are used as borders
-          awful.titlebar.toggle(c)
+          awful.titlebar.toggle(c, "left")
+          awful.titlebar.toggle(c, "right")
+          awful.titlebar.toggle(c, "top")
+          awful.titlebar.toggle(c, "bottom")
         end
       end, {description = "toggle titlebar", group = "client"}),
       awful.key({super}, "n", function(c)
@@ -619,9 +648,8 @@ client.connect_signal("request::default_keybindings", function()
         -- Focus restored client
         if c then client.focus = c end
       end, {description = "restore minimized", group = "client"}),
-      awful.key({super}, "m",
-                function() awful.spawn("alacritty --class ncmpcpp,ncmpcpp -e ncmpcpp") end,
-                {description = "(un)maximize", group = "client"})
+      awful.key({super}, "m", function()
+        awful.spawn("alacritty --class ncmpcpp,ncmpcpp -e ncmpcpp")
+      end, {description = "(un)maximize", group = "client"})
     })
 end)
-

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pid=$(ps aux | grep "/usr/bin/browser-sync" | head -n 1 | awk '{print $2}')
+
+kill $pid

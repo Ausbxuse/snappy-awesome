@@ -142,7 +142,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
       -- require("widgets.song-title"),
-      systray,
+      -- systray,
       clock, -- Middle widget
       -- build_widget(cpu_widget({
       --     width = 40,

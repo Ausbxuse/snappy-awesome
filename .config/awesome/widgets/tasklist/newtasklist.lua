@@ -184,7 +184,7 @@ function pop:autohide()
         self.popup_timer:stop()
         self.popup_timer = nil
     end
-    self.popup_timer = gears.timer.start_new(1.5, function()
+    self.popup_timer = gears.timer.start_new(0, function()
         self.popup_timer = nil
         self.instance.visible = false
     end)
@@ -417,7 +417,9 @@ end
 local update = function() set_icons_in_order() end
 
 client.connect_signal("property::floating", update)
+client.connect_signal("property::hidden", update)
 client.connect_signal("focus", update)
+client.connect_signal("unfocus", update)
 client.connect_signal("manage", add_client)
 client.connect_signal("unmanage", remove_client)
 
