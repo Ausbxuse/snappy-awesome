@@ -106,7 +106,7 @@ awful.keyboard.append_global_keybindings(
       if not client.focus then
         awful.spawn("brave")
       else
-        if not client.focus.fullscreen then awful.spawn("firefox") end
+        if not client.focus.fullscreen then awful.spawn("brave") end
       end
     end, {description = "show main menu", group = "awesome"}),
     awful.key({super, shift}, "r", awesome.restart,
@@ -145,9 +145,9 @@ awful.keyboard.append_global_keybindings(
     awful.key({super, ctrl}, "r", function()
       awesome.emit_signal("widget::screen_recorder:toggle")
     end, {description = "record screen with sound", group = "launcher"}),
-    awful.key({super}, "r", function() awful.spawn("rofi -show run") end,
+    awful.key({super}, "r", function() awful.spawn("rofi -show run -theme ~/.config/rofi/arthur.rasi") end,
               {description = "run prompt", group = "launcher"}),
-    awful.key({super}, "a", function() awful.spawn("rofi -show calc") end,
+    awful.key({super}, "a", function() awful.spawn("rofi -show calc -theme ~/.config/rofi/arthur.rasi") end,
               {description = "run prompt", group = "launcher"}),
     awful.key({super, ctrl}, "p", function()
 
@@ -566,13 +566,17 @@ client.connect_signal("request::default_keybindings", function()
       end, {description = "gap control", group = "client"}),
 
       awful.key({super}, "g", function(c)
-        if beautiful.useless_gap == dpi(4) then
-          beautiful.useless_gap = dpi(0)
+        local tag = s.selected_tag
+        if tag.gap == dpi(4) then
+          tag.gap = dpi(0)
         else
-          beautiful.useless_gap = dpi(4)
+          tag.gap = dpi(4)
         end
+        awful.layout.arrange(awful.screen.focused())
       end), awful.key({super, shift}, "g", function(c)
-        beautiful.useless_gap = beautiful.useless_gap + 10
+        local tag = s.selected_tag
+        tag.gap = tag.gap + 1
+        awful.layout.arrange(awful.screen.focused())
       end), awful.key({super, ctrl}, "space", awful.client.floating.toggle,
                       {description = "toggle floating", group = "client"}),
       awful.key({super, ctrl}, "Return",

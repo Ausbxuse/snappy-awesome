@@ -13,6 +13,7 @@ xrdb -load ~/.config/x11/xresources &
 
 mpd &			# music player daemon-you might prefer it as a service though
 xmodmap -e "keycode 108 = Multi_key" &
+xmodmap -e "keycode 119 = r" &
 #setbg
 #xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources &	# Uncomment to use Xresources colors/settings on startup
 picom &		# xcompmgr for transparency
@@ -32,7 +33,7 @@ fcitx &
 # ! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1 &
 killall pulseaudio && pulseaudio --start &
 
-xset s 600 30 &
+#xset s 600 30 &
 playerctld daemon &
 mpDris2 &
 #xss-lock -n ~/.local/bin/scripts/dim-screen.sh -- xset s activate &

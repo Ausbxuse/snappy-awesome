@@ -3,7 +3,7 @@
 
 # SETTINGS
 music_library="$HOME/Music"
-fallback_image="$HOME/.config/ncmpcpp/ncmpcpp-ueberzug/img/fallback.png"
+fallback_image="$HOME/Media/musicfallback.png"
 padding_top=2
 padding_bottom=2
 padding_right=1
@@ -48,11 +48,11 @@ find_cover_image() {
         # since FFMPEG cannot export embedded FLAC art we use metaflac
         metaflac --export-picture-to=/tmp/mpd_cover.jpg \
             "$(mpc --format "$music_library"/%file% current)" &&
-            cover_path="/tmp/mpd_cover.jpg" && echo "music_noti:notify('$(mpc --format %title% current)', 'by $(mpc --format %artist% current)', '$cover_path')" | awesome-client && return
+            cover_path="/tmp/mpd_cover.jpg" && noti "$(mpc --format %title% current)" "by $(mpc --format %artist% current)" "$cover_path" 2 && return
     else
         ffmpeg -y -i "$(mpc --format "$music_library"/%file% | head -n 1)" \
             /tmp/mpd_cover.jpg &&
-            cover_path="/tmp/mpd_cover.jpg" && echo "music_noti:notify('$(mpc --format %title% current)', 'by $(mpc --format %artist% current)', '$cover_path')" | awesome-client && return
+            cover_path="/tmp/mpd_cover.jpg" && noti "$(mpc --format %title% current)" "by $(mpc --format %artist% current)" "$cover_path" 2 && return
     fi
 
     # If no embedded art was found we look inside the music file's directory
@@ -64,14 +64,14 @@ find_cover_image() {
     -iregex ".*/.*\(${album}\|cover\|folder\|artwork\|front\).*[.]\\(jpe?g\|png\|gif\|bmp\)" \; )"
     cover_path="$(echo "$found_covers" | head -n1)"
     if [ -n "$cover_path" ]; then
-        echo "music_noti:notify('$(mpc --format %title% current)', 'by $(mpc --format %artist% current)', '$cover_path')" | awesome-client
+        noti "$(mpc --format %title% current)" "by $(mpc --format %artist% current)" "$cover_path" 2
         return
     fi
 
     # If we still failed to find a cover image, we use the fallback
     if [ -z "$cover_path" ]; then
         cover_path=$fallback_image
-        echo "music_noti:notify('$(mpc --format %title% current)', 'by $(mpc --format %artist% current)', '$cover_path')" | awesome-client
+        noti "$(mpc --format %title% current)" "by $(mpc --format %artist% current)" "$cover_path" 2
     fi
 }
 

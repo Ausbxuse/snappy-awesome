@@ -15,6 +15,6 @@ cmds="\
   	${reb:-sudo -A reboot}
   	${shut:-sudo -A shutdown -h now}"
 
-choice="$(echo "$cmds" | cut -d'	' -f 1 | rofi -dmenu -theme ~/.config/rofi/themes/sidebar/five-horizontal.rasi -font "mono 16")" || exit 1
+choice="$(echo "$cmds" | cut -d'	' -f 1 | rofi -dmenu -theme ~/.config/rofi/arthur.rasi -font "mono 16")" || exit 1
 
 `echo "$cmds" | grep "^$choice	" | cut -d '	' -f2-`
