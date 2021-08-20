@@ -2,7 +2,6 @@ local wibox = require('wibox')
 local gears = require('gears')
 local awful = require('awful')
 local beautiful = require('beautiful')
-local spawn = awful.spawn
 local dpi = beautiful.xresources.apply_dpi
 local icons = require('icons')
 
@@ -64,9 +63,9 @@ end)
 awesome.connect_signal('module::volume_osd',
                        function(volume) vol_osd_slider:set_value(volume) end)
 
-local cat_image = wibox.widget{
+local cat_image = wibox.widget {
   widget = wibox.widget.imagebox,
-  --resize = true,
+  -- resize = true,
   image = icons.cat
 }
 
@@ -81,7 +80,7 @@ local cat_image_layout = wibox.widget {
 
 local volume_slider_osd = wibox.widget {
   slider_osd,
-  --spacing = dpi(24),
+  -- spacing = dpi(24),
   layout = wibox.layout.fixed.horizontal
 }
 
@@ -225,8 +224,7 @@ end), awful.button({}, 5, nil, function()
 end)))
 
 local update_slider = function()
-  awful.spawn.easy_async_with_shell([[bash -c "check-vol"]],
-                                    function(stdout)
+  awful.spawn.easy_async_with_shell([[bash -c "check-vol"]], function(stdout)
     local vol = stdout:gsub('%\n', '')
     -- local muted = string.match(stdout, 'off')
     if vol == 'muted' then
@@ -236,9 +234,9 @@ local update_slider = function()
       vol = tonumber(vol)
       if vol == 0 then
         cat_image:set_image(icons.cat)
-      elseif vol > 0 and vol <= 25  then
+      elseif vol > 0 and vol <= 25 then
         cat_image:set_image(icons.cat20)
-      elseif vol > 25 and vol <= 50  then
+      elseif vol > 25 and vol <= 50 then
         cat_image:set_image(icons.cat40)
       elseif vol > 50 and vol <= 75 then
         cat_image:set_image(icons.cat60)

@@ -21,7 +21,7 @@ picom &		# xcompmgr for transparency
 xset r rate 200 60 &	# Speed xrate up
 unclutter &		# Remove mouse when idle
 #transmission-daemon &
-fcitx &
+#fcitx &
 #light-locker --no-idle-hint &
 
 #xautolock -time 1 -locker "slock" -corners +00- &

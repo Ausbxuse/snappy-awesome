@@ -11,7 +11,7 @@ beautiful.border_width = dpi(0)
 local color_normal = "#56666f"
 
 local function make_titlebar(c)
-  if awful.layout.get(mouse.screen) ~= awful.layout.suit.max then
+  -- if awful.layout.get(mouse.screen) ~= awful.layout.suit.max then
 
     awful.titlebar(c, {
       position = "left",
@@ -67,7 +67,7 @@ local function make_titlebar(c)
       bg_focus = "#e379d8",
       bg_normal = color_normal
     })
-  end
+  -- end
 end
 
 client.connect_signal("request::geometry", function(c) make_titlebar(c) end)

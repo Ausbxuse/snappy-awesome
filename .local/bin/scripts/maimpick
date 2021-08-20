@@ -4,7 +4,7 @@
 # choose the kind of screenshot to take, including copying the image or even
 # highlighting an area to copy. scrotcucks on suicidewatch right now.
 
-case "$(printf "   \\n   \\n   \\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | rofi -dmenu -l 6 -theme ~/.config/rofi/themes/sidebar/three-horizontal.rasi)" in
+case "$(printf "   \\n   \\n   \\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | rofi -dmenu -l 6 -theme ~/.config/rofi/arthur.rasi)" in
 	"   ") maim -s ~/Pictures/Screenshots/pic-selected-"$(date '+%y%m%d-%H%M-%S').png" ;;
 	"   ") maim -i "$(xdotool getactivewindow)" ~/Pictures/Screenshots/pic-window-"$(date '+%y%m%d-%H%M-%S').png" ;;
 	"   ") sleep 1 && maim ~/Pictures/Screenshots/pic-full-"$(date '+%y%m%d-%H%M-%S').png" && sleep 2 && notify-send "Screenshot!" ;;

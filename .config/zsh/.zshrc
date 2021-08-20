@@ -134,3 +134,8 @@ PROMPT="$truncated_path "
 RPROMPT=" $background_jobs $non_zero_return_value"
 # Input in bold
 zle_highlight=(default:bold)
+
+# cd ls
+cl() {
+  cd "$@" && ls;
+}
