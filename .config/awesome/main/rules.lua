@@ -13,16 +13,14 @@ ruled.client.connect_signal("request::rules", function()
       raise = true,
       screen = awful.screen.preferred,
       placement = awful.placement.no_overlap + awful.placement.no_offscreen
-    },
+    }
 
     -- callback = function(c) awful.placement.centered(c, nil) end
   }
 
   -- Floating clients.
-  ruled.client.append_rule{
-    rule_any = {
-      class = {"Alacritty"}
-    },
+  ruled.client.append_rule {
+    rule_any = {class = {"Alacritty"}},
     callback = function(c) awful.placement.centered(c, nil) end
   }
   ruled.client.append_rule {
@@ -31,15 +29,13 @@ ruled.client.connect_signal("request::rules", function()
       instance = {"copyq", "pinentry", "wally"},
       class = {
         "Arandr", "Blueman-manager", "Gpick", "Kruler", "Tor Browser",
-        "Wpa_gui", "veromix", "xtightvncviewer", "scratchpad", "Sxiv",
-        "Zathura", "Wally", "wally"
+        "Wpa_gui", "veromix", "xtightvncviewer", "scratchpad"
       },
       -- Note that the name property shown in xprop might be set slightly after creation of the client
       -- and the name shown there might not match defined rules here.
       name = {
         "Event Tester", -- xev.
-        "wally",
-        "emoji"
+        "wally", "emoji"
       },
       role = {
         "AlarmWindow", -- Thunderbird's calendar.
@@ -47,7 +43,7 @@ ruled.client.connect_signal("request::rules", function()
         "pop-up" -- e.g. Google Chrome's (detached) Developer Tools.
       }
     },
-    properties = {raise = true, floating = true},
+    properties = {raise = true, floating = true}
     -- always center
     -- callback = function(c) awful.placement.centered(c, nil) end
   }
@@ -61,7 +57,7 @@ ruled.client.connect_signal("request::rules", function()
 
   -- Set Firefox to always map on the tag named "2" on screen 1.
   ruled.client.append_rule {
-    rule = {class = {"Gimp", "Zathura", "Sxiv", "feh" }},
+    rule = {class = {"Gimp", "Zathura", "Sxiv", "feh"}},
     properties = {tag = "󰪷", switch_to_tags = true}
   }
   ruled.client.append_rule {
